@@ -1,8 +1,8 @@
-const loadDay = async (modulePath: string) => {
+async function loadDay(modulePath: string) {
   return import(modulePath);
-};
+}
 
-const main = async () => {
+async function main() {
   const day = process.argv[2];
 
   if (!day) {
@@ -18,7 +18,7 @@ const main = async () => {
     console.error(`Failed to load ${modulePath}:`, error);
     process.exit(1);
   }
-};
+}
 
 main().catch((error) => {
   console.error("Unexpected error in runner:", error);
