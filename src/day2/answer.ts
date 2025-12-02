@@ -14,19 +14,39 @@ function isInvalid(num: number) {
   return firstHalf === secondHalf;
 }
 
+function isInvalidPart2(num: number) {
+  const s = String(num);
+
+  for (
+    let patternSize = 1;
+    patternSize <= Math.floor(s.length / 2) + 1;
+    patternSize += 1
+  ) {
+    const patternToCheck = s.slice(0, patternSize);
+    const repetitions = Math.floor(s.length / patternSize);
+
+    if (s.length % patternSize !== 0) continue; // if not possible to make this size of string a repeatable pattern
+    if (repetitions >= 2 && patternToCheck.repeat(repetitions) === s)
+      return true;
+  }
+  return false;
+}
+
 function main() {
   const input = processInput(2); // pass the day number to the function
   const productIds = input.split(",").map(processRange);
 
-  let totalInvalid = 0;
+  let [totalInvalidPart1, totalInvalidPart2] = [0, 0];
 
   for (const [start, end] of productIds) {
     for (let i = start; i <= end; i += 1) {
-      totalInvalid += isInvalid(i) ? i : 0;
+      totalInvalidPart1 += isInvalid(i) ? i : 0;
+      totalInvalidPart2 += isInvalidPart2(i) ? i : 0;
     }
   }
 
-  console.log(`[PART-1]: Total of invalid numbers: ${totalInvalid}`);
+  console.log(`[PART-1]: Total of invalid numbers: ${totalInvalidPart1}`);
+  console.log(`[PART-2]: Total of invalid numbers: ${totalInvalidPart2}`);
 }
 
 main();
